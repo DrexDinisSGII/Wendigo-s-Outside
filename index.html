@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WENDIGO'S OUTSIDE | Official Website</title>
+    <style>
+        :root {
+            --main-bg: #111;
+            --accent: #e63946;
+            --light: #f1f1f1;
+            --dark: #1d1d1d;
+            --text: #eaeaea;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--dark);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3em;
+            color: var(--accent);
+        }
+
+        .section {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 60px 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section:nth-child(even) {
+            background-color: var(--dark);
+        }
+
+        .section-content,
+        .section-image {
+            flex: 1 1 400px;
+            padding: 20px;
+        }
+
+        .section-content h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--accent);
+        }
+
+        .section-content p,
+        .section-content ul {
+            margin-bottom: 20px;
+        }
+
+        .section-content ul {
+            list-style-type: circle;
+            padding-left: 20px;
+        }
+
+        h1 {
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .section-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .main-character {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .main-character h2 {
+            font-size: 2.5em;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 20px;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .character {
+            flex: 0 0 180px;
+            height: 320px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .character:hover {
+            transform: scale(1.1);
+        }
+
+        .character img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        button.prev,
+        button.next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: var(--accent);
+            font-size: 2em;
+            padding: 0 12px;
+            cursor: pointer;
+            border-radius: 50%;
+            user-select: none;
+            z-index: 1000;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        button.prev:hover,
+        button.next:hover {
+            background: var(--accent);
+            color: var(--main-bg);
+        }
+
+        button.prev {
+            left: 10px;
+        }
+
+        button.next {
+            right: 10px;
+        }
+
+        .description {
+            font-size: 18px;
+            margin: 20px;
+        }
+
+        .links {
+            padding: 40px 20px;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .links h2 {
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .links a {
+            display: inline-block;
+            margin: 10px 15px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 2px solid transparent;
+        }
+
+        .links a:hover {
+            border-color: var(--accent);
+        }
+
+        #topBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: none;
+            background: var(--accent);
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+            z-index: 1000;
+            transition: background 0.3s;
+        }
+
+        #topBtn:hover {
+            background: #b02b2b;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 2px solid transparent;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        .requirements {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .requirement-block {
+            background-color: var(--dark);
+            border-radius: 10px;
+            padding: 20px 30px;
+            flex: 1 1 300px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .requirement-block:hover {
+            background-color: var(--main-bg);
+            transform: translateY(-5px);
+        }
+
+        .requirement-block h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .requirement-block li {
+            margin-bottom: 10px;
+        }
+
+        .requirement-block strong {
+            color: var(--accent);
+        }
+
+        .Planos {
+            padding: 40px 20px;
+            background: var(--dark);
+            color: var(--text);
+            text-align: center;
+        }
+
+        .Planos h2 {
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--dark);
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        body.light {
+            --main-bg: #f4f4f4;
+            --accent: #9c3737;
+            --light: #c9a7a7;
+            --dark: #f0d6d6;
+            --text: #111;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                flex-direction: column;
+            }
+
+            .character {
+                width: 120px;
+                height: 240px;
+                margin: 0 5px;
+            }
+
+            button.prev,
+            button.next {
+                display: none;
+            }
+
+            .carousel-wrapper {
+                max-width: 100%;
+                padding: 0 10px;
+            }
+
+            .carousel {
+                gap: 10px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1>Wendigo's Outside</h1>
+        <button id="theme-toggle"
+            style="position:absolute; top:20px; right:20px; background:none; border:2px solid var(--accent); color:var(--accent); padding:5px 10px; border-radius:6px; cursor:pointer;">
+            ☀️ / 🌙
+        </button>
+    </header>
+
+    <section class="section fade-in">
+        <div class="section-content">
+            <h2>Sobre</h2>
+            <p>Wendigo's Outside é um jogo de terror de sobrevivência que conta a história de Joshua.</p>
+            <p>O jogo oferece vários modos de jogo e uma narrativa assustadora.</p>
+        </div>
+        <div class="section-image">
+            <img src="imagens/Capsule.jpg" alt="Imagem do jogo">
+        </div>
+    </section>
+
+    <section class="section fade-in">
+        <div class="section-image">
+            <img src="imagens/Mais uma print de WO.png" alt="Banner principal">
+        </div>
+        <div class="section-content">
+            <h2>Modos De Jogo</h2>
+            <ul>
+                <li><strong>Modo de Sobrevivência</strong> - Sobreviva cinco noites a Wendigo dentro de sua casa.</li>
+                <li><strong>Modo de Fuga</strong> - Ligue três geradores e escape de Baldamar.</li>
+                <li><strong>Minijogos</strong> - Oito jogos curtos para se entreter.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section fade-in">
+        <div class="section-content">
+            <h2>Desvende os Mistérios</h2>
+            <p>O protagonista encontra-se preso em Baldamar, onde além do Wendigo, enfrenta uma facção perigosa e
+                secreta.</p>
+        </div>
+        <div class="section-image">
+            <img src="imagens/ImagemDoJogo.jpg" alt="Imagem do jogo">
+        </div>
+    </section>
+
+    <section class="section fade-in">
+        <div class="section-image">
+            <img src="imagens/Captura de ecrã 2025-05-03 115204.png" alt="Expansões">
+        </div>
+        <div class="section-content">
+            <h2>Explore as Expansões</h2>
+            <ul>
+                <li><strong>Wendigo's Outside 2</strong> - Sequela direta com novos perigos.</li>
+                <li><strong>The Fort</strong> - Jogo baseado em furtividade sobre a máfia de Baldamar.</li>
+                <li><strong>Outros</strong> - Em breve...</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section fade-in">
+        <div class="section-content">
+            <h2>Sobre a Equipa/Jogo</h2>
+            <ul>
+                <li><strong>Equipa:</strong> Projeto individual com apoio pontual.</li>
+                <li><strong>Desenvolvimento:</strong> Iniciado em Unreal Engine 4 (Dezembro 2023), migrado para UE5.
+                </li>
+                <li><strong>Desafios:</strong> Integração com Steam e conquistas.</li>
+            </ul>
+        </div>
+        <div class="section-image">
+            <img src="imagens/Blueprints.png" alt="Blueprints">
+        </div>
+    </section>
+
+    <section class="main-character fade-in">
+        <h2>Personagens</h2>
+        <p class="description">Conheça os cinco personagens únicos que fazem parte da aventura.</p>
+
+        <div class="carousel-container">
+            <button class="carousel-btn prev">&lt;</button>
+            <div class="carousel">
+                <div class="character"><img src="imagens/Wendigo.png" alt="Wendigo"></div>
+                <div class="character"><img src="imagens/Foxer.png" alt="Foxer"></div>
+                <div class="character"><img src="imagens/Military.png" alt="Military"></div>
+                <div class="character"><img src="imagens/Robert.png" alt="Robert"></div>
+                <div class="character"><img src="imagens/Salvatore.png" alt="Salvatore"></div>
+            </div>
+            <button class="carousel-btn next">&gt;</button>
+        </div>
+    </section>
+
+    <section class="fade-in" style="background-color: var(--dark); padding: 3rem; color: #fff;">
+        <h1>Novidades</h1>
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            <div id="news-highlight"
+                style="flex: 2; background: #fff; color: #222; border-radius: 8px; overflow: hidden;">
+                <img id="highlight-img" src="" alt="" style="width: 100%; max-height: 400px; object-fit: cover;">
+                <div style="padding: 1.5rem;">
+                    <p id="highlight-date" style="font-size: 0.9rem; color: #888;"></p>
+                    <h2 id="highlight-title" style="color: #9c3737; font-size: 1.8rem;"></h2>
+                    <p id="highlight-desc" style="color: #333;"></p>
+                </div>
+            </div>
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 1rem;">
+                <div id="news-list"></div>
+                <a href="https://store.steampowered.com/news/app/3296160?updates=true"
+                    style="align-self: center; background: #9c3737; color: #000; padding: 0.6rem 1.2rem; border-radius: 5px; text-decoration: none;">Ver
+                    todas as novidades</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section fade-in">
+        <div class="section-content">
+            <h2>Requisitos do Sistema</h2>
+            <div class="requirements">
+                <div class="requirement-block">
+                    <h3>Mínimos</h3>
+                    <ul>
+                        <li><strong>SO:</strong> Windows 10 64-bit</li>
+                        <li><strong>CPU:</strong> Intel Core i5 ou equivalente AMD</li>
+                        <li><strong>RAM:</strong> 8 GB</li>
+                        <li><strong>GPU:</strong> NVIDIA GTX 760</li>
+                        <li><strong>Armazenamento:</strong> 10 GB</li>
+                    </ul>
+                </div>
+                <div class="requirement-block">
+                    <h3>Recomendados</h3>
+                    <ul>
+                        <li><strong>SO:</strong> Windows 10/11 64-bit</li>
+                        <li><strong>CPU:</strong> Intel Core i5 ou equivalente AMD</li>
+                        <li><strong>RAM:</strong> 12 GB</li>
+                        <li><strong>GPU:</strong> NVIDIA RTX 2060</li>
+                        <li><strong>Armazenamento:</strong> 12 GB</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="fade-in" style="background: var(--dark); text-align: center; padding: 40px 20px;">
+        <h2 style="color: var(--accent); margin-bottom: 20px;">Galeria de Imagens</h2>
+        <div id="gallery" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+            <img src="imagens/gameplay/Captura de ecrã 2025-04-08 191420.png" alt="Gameplay 1"
+                style="width:600px; cursor:pointer; border-radius:8px;">
+            <img src="imagens/gameplay/Captura de ecrã 2025-04-08 191433.png" alt="Gameplay 2"
+                style="width:600px; cursor:pointer; border-radius:8px;">
+            <img src="imagens/gameplay/Captura de ecrã 2025-04-08 191519.png" alt="Gameplay 3"
+                style="width:600px; cursor:pointer; border-radius:8px;">
+            <img src="imagens/gameplay/Captura de ecrã 2025-04-08 191528.png" alt="Gameplay 4"
+                style="width:600px; cursor:pointer; border-radius:8px;">
+        </div>
+        <div id="gallery-display" style="margin-top: 30px;">
+            <img src="imagens/gameplay/Captura de ecrã 2025-04-08 191420.png" alt="Imagem ampliada"
+                style="max-width: 90%; border-radius:10px; box-shadow: 0 4px 20px rgba(0,0,0,0.7);">
+        </div>
+    </section>
+    <div class="Planos">
+        <h2 class="fade-in" style="text-align: center; color: var(--accent);">Planos Futuros</h2>
+        <p class="fade-in" style="text-align: center; max-width: 800px; margin: 0 auto;">
+            Wendigo's Outside está planeado para receber atualizações regulares, includindo novos modos de jogo,
+            expansões em forma de DLCs e terá duas continuações, Wendigo's Outside 2 e Wendigo's Outside 3, que irão
+            expandir a história e o universo do jogo. Além disso, existe a possibilidade de lançar o jogo em outras
+            plataformas no futuro.
+            Para além disso está planeado lançar uma gama de produtos da franquia Wendigo's Outside, como t-shirts,
+            canecas, bonecos, livros e muito mais.
+        </p>
+    </div>
+    <button id="topBtn" title="Voltar ao topo">⬆️</button>
+    <footer>
+        <div>&copy; 2025 WENDIGO'S OUTSIDE. Todos os direitos reservados.</div>
+        <div class="footer-links">
+            <a href="https://store.steampowered.com/app/3296160/Wendigos_Outside/" target="_blank">Steam</a>
+            <a href="https://supergamesstudiosllc.itch.io/wendigos-outside" target="_blank">Itch.io</a>
+            <a href="https://discord.gg/w3RRetQq" target="_blank">Discord</a>
+            <a href="https://store.steampowered.com/curator/45355868/" target="_blank">Comunidade Steam</a>
+            <a href="https://www.instagram.com/super_games_studios_official/" target="_blank">Instagram</a>
+            <a href="https://www.youtube.com/@supergamesstudios" target="_blank">YouTube</a>
+            <a href="https://x.com/StudiosGam38936" target="_blank">X (Twitter)</a>
+            <a href="https://www.tiktok.com/@super_games_studios_llc" target="_blank">TikTok</a>
+        </div>
+    </footer>
+
+    <script>
+        const fadeIns = document.querySelectorAll('.fade-in');
+        window.addEventListener('scroll', () => {
+            fadeIns.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) el.classList.add('visible');
+            });
+        });
+
+        const gallery = document.getElementById('gallery');
+        const display = document.querySelector('#gallery-display img');
+        gallery.querySelectorAll('img').forEach(img => {
+            img.addEventListener('click', () => {
+                display.src = img.src;
+                display.alt = img.alt;
+            });
+        });
+
+        fetch("https://api.rss2json.com/v1/api.json?rss_url=https://store.steampowered.com/feeds/news/app/3296160?cc=pt&l=pt")
+            .then(res => res.json())
+            .then(data => {
+                const items = data.items.slice(0, 4);
+                if (!items.length) return;
+
+                function getImage(item) {
+                    return item.thumbnail || (item.enclosure && item.enclosure.link) || "imagens/default.png";
+                }
+
+                const destaque = items[0];
+                document.getElementById("highlight-img").src = getImage(destaque);
+                document.getElementById("highlight-date").innerText = new Date(destaque.pubDate).toLocaleDateString('pt-PT');
+                document.getElementById("highlight-title").innerText = destaque.title;
+                document.getElementById("highlight-desc").innerHTML = destaque.description;
+
+                const list = document.getElementById("news-list");
+                items.slice(1).forEach(item => {
+                    const div = document.createElement("div");
+                    div.style = "background:#fff;color:#000;display:flex;border-radius:6px;overflow:hidden;margin-bottom:10px;";
+                    div.innerHTML = `
+                    <img src="${getImage(item)}" style="width:100px;height:100px;object-fit:cover;">
+                    <div style="padding:0.8rem;">
+                        <p style="color:#888;font-size:0.8rem;margin:0;">${new Date(item.pubDate).toLocaleDateString('pt-PT')}</p>
+                        <h4 style="margin:0.2rem 0 0;font-size:1rem;">${item.title}</h4>
+                    </div>`;
+                    list.appendChild(div);
+                });
+            })
+            .catch(() => {
+                document.getElementById("highlight-title").innerText = "Não foi possível carregar as novidades.";
+            });
+    </script>
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        function setTheme(theme) {
+            document.body.classList.toggle('light', theme === 'light');
+            localStorage.setItem('theme', theme);
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            const newTheme = document.body.classList.contains('light') ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+    </script>
+    <script>
+        const topBtn = document.getElementById('topBtn');
+
+        window.onscroll = () => {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                topBtn.style.display = 'block';
+            } else {
+                topBtn.style.display = 'none';
+            }
+        };
+
+        topBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+    <script>
+        const carousel = document.querySelector('.carousel');
+        const prevBtn = document.querySelector('.carousel-btn.prev');
+        const nextBtn = document.querySelector('.carousel-btn.next');
+
+        const scrollAmount = 200;
+
+        prevBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+    </script>
+</body>
+
+</html>
